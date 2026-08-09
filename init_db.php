@@ -27,7 +27,7 @@
 
   mysqli_query($connect, $createTable);
 
-  // Migration: drop appar_id, add branch (handles older DBs)
+  // Migration: drop appar_id, add branch, enlarge photo (handles older DBs)
   $cols = mysqli_query($connect, "SHOW COLUMNS FROM user LIKE 'appar_id'");
   if ($cols && mysqli_num_rows($cols) > 0) {
     mysqli_query($connect, "ALTER TABLE user DROP COLUMN appar_id");
@@ -35,6 +35,13 @@
   $cols = mysqli_query($connect, "SHOW COLUMNS FROM user LIKE 'branch'");
   if ($cols && mysqli_num_rows($cols) == 0) {
     mysqli_query($connect, "ALTER TABLE user ADD COLUMN branch varchar(100) DEFAULT NULL AFTER div_roll_no");
+  }
+  $cols = mysqli_query($connect, "SHOW COLUMNS FROM user LIKE 'photo'");
+  if ($cols) {
+    $ph = mysqli_fetch_array($cols);
+    if (strtoupper(substr($ph['Type'], 0, 3)) !== 'LON') {
+      mysqli_query($connect, "ALTER TABLE user MODIFY COLUMN photo LONGTEXT");
+    }
   }
 
   $createElection = "CREATE TABLE IF NOT EXISTS `election` (
