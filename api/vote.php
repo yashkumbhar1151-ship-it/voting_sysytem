@@ -3,10 +3,51 @@
   session_start();
   include('connect.php');
 
+  // Election gate: only allow voting while election is LIVE (status=1)
+  $election = mysqli_query($connect, "SELECT * FROM election ORDER BY id DESC LIMIT 1");
+  $electionData = mysqli_fetch_array($election);
+  $electionStatus = $electionData ? $electionData['status'] : 0;
+
+  if ($electionStatus != 1) {
+    echo "
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Voting Closed</title>
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
+    </head>
+    <body>
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script>
+        Swal.fire({
+            title: 'Voting is Closed',
+            text: 'The election is not currently open for voting.',
+            icon: 'info',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.href = '../routes/Dashboard.php';
+        });
+    </script>
+    </body>
+    </html>
+    ";
+    exit;
+  }
+
 $Cvotes = $_POST['Cvotes'];
 $total_votes = $Cvotes+1;
 $Cid = $_POST['Cid'];
-$uid = $_SESSION['userdata']['id']; 
+$uid = $_SESSION['userdata']['id'];
+
+// Prevent duplicate vote at DB level too
+$userCheck = mysqli_query($connect, "SELECT status FROM user WHERE id='$uid'");
+$urow = mysqli_fetch_assoc($userCheck);
+
+if ($urow && $urow['status'] == 1) {
+  echo '<script>alert("You have already voted!"); window.location = "../routes/Dashboard.php";</script>';
+  exit;
+}
 
 $update_votes = mysqli_query($connect, "UPDATE user SET vote='$total_votes' WHERE id='$Cid'");
 $update_user_status = mysqli_query($connect,"UPDATE user SET status=1 WHERE id='$uid'");
@@ -25,28 +66,13 @@ if($update_votes and $update_user_status){
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>SweetAlert Example</title>
+        <title>Voting Successful</title>
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 100vh;
-                margin: 0;
-            }
-        </style>
     </head>
     <body>
-    
     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            showAlert();
-        });
-    
-        function showAlert() {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -56,14 +82,11 @@ if($update_votes and $update_user_status){
               }).then(() => {
                 window.location.href = '../routes/Dashboard.php';
             });
-        }
+        });
     </script>
-    
     </body>
     </html>
-        
-        ";
-  
+    ";
 
 }
 else{
@@ -72,7 +95,7 @@ else{
          alert("Some error occured!");
          window.location = "../routes/Dashboard.php";
     </script>
-   '; 
+   ';
 }
 
 ?>

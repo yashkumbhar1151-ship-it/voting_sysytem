@@ -6,7 +6,7 @@
 
    include("../api/connect.php");
 
-   $candidate = mysqli_query($connect, "SELECT * FROM user WHERE role=2");
+   $candidate = mysqli_query($connect, "SELECT * FROM user WHERE role=2 ORDER BY vote DESC");
    $candidatedata = mysqli_fetch_all($candidate, MYSQLI_ASSOC);
 
    $voter = mysqli_query($connect, "SELECT * FROM user WHERE role=1");
@@ -14,6 +14,30 @@
 
    $voted = mysqli_query($connect, "SELECT * FROM user WHERE role=1 AND status=1");
    $votedcount = mysqli_num_rows($voted);
+
+   $election = mysqli_query($connect, "SELECT * FROM election ORDER BY id DESC LIMIT 1");
+   $electionData = mysqli_fetch_array($election);
+   $electionStatus = $electionData ? $electionData['status'] : 0;
+   // 0 = Not started, 1 = Live, 2 = Ended
+
+   // Winner calculation for announcement
+   $winner = null;
+   if ($electionStatus == 2) {
+     $maxVotes = 0;
+     foreach ($candidatedata as $cand) {
+       if ($cand['vote'] > $maxVotes) {
+         $maxVotes = $cand['vote'];
+       }
+     }
+     if ($maxVotes > 0) {
+       foreach ($candidatedata as $cand) {
+         if ($cand['vote'] == $maxVotes) {
+           $winner = $cand;
+           break;
+         }
+       }
+     }
+   }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +62,57 @@
             font-family: 'Segoe UI', sans-serif;
             margin-top: 10px;
         }
+        /* Election status banner */
+        #electionBanner {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .status-notstarted { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
+        .status-live { background: #d4edda; color: #155724; border: 1px solid #28a745; }
+        .status-ended { background: #f8d7da; color: #721c24; border: 1px solid #dc3545; }
+
+        #electionActions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        #electionActions button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .btn-start { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
+        .btn-end { background: linear-gradient(135deg, #b71c1c, #d32f2f); }
+        .btn-start:hover, .btn-end:hover { opacity: 0.9; }
+
+        /* Winner announcement */
+        #winnerBox {
+            text-align: center;
+            background: linear-gradient(135deg, var(--scoe-gold) 0%, #b8860b 100%);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        #winnerBox img {
+            border-radius: 50%;
+            border: 3px solid #fff;
+            object-fit: cover;
+        }
+        #winnerBox h2 { margin: 10px 0 5px 0; font-size: 28px; }
+        #winnerBox p { margin: 3px 0; font-size: 16px; }
+
         #addCandidateForm {
             max-width: 400px;
             margin: 20px auto;
@@ -65,9 +140,7 @@
             font-size: 15px;
             font-weight: 600;
         }
-        #candidateList {
-            margin-top: 30px;
-        }
+        #candidateList { margin-top: 30px; }
         #candidateCard {
             background-color: #f9f9f9;
             padding: 15px;
@@ -78,8 +151,16 @@
             align-items: center;
             gap: 20px;
         }
-        #candidateCard img {
-            border-radius: 50%;
+        #candidateCard img { border-radius: 50%; object-fit: cover; }
+        #candidateCard .vote-count {
+            margin-left: auto;
+            background: var(--scoe-maroon);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            min-width: 80px;
+            text-align: center;
         }
         #stats {
             display: flex;
@@ -98,7 +179,19 @@
             border-bottom: 3px solid var(--scoe-gold);
         }
         #statBox h2 { margin: 0; color: var(--scoe-gold-light); }
-        .top-actions { margin: 15px 0; }
+        .top-actions { margin: 15px 0; display: flex; justify-content: space-between; }
+        .hidden { display: none; }
+        #deleteForm { display: inline; }
+        .delete-btn {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        #noVotesMsg { color: #888; text-align: center; }
     </style>
 </head>
 <body>
@@ -117,6 +210,46 @@
             <a href="logout.php"><button id="logoutbtn">Log Out</button></a>
         </div>
         <h1 id="adminTitle">Admin Dashboard</h1>
+
+        <!-- Election status banner -->
+        <?php if ($electionStatus == 0): ?>
+            <div id="electionBanner" class="status-notstarted">Election Status: NOT STARTED</div>
+        <?php elseif ($electionStatus == 1): ?>
+            <div id="electionBanner" class="status-live">Election Status: LIVE - Voting is open</div>
+        <?php else: ?>
+            <div id="electionBanner" class="status-ended">Election Status: ENDED</div>
+        <?php endif; ?>
+
+        <!-- Election controls -->
+        <div id="electionActions">
+            <?php if ($electionStatus == 0): ?>
+                <a href="../api/start_election.php"><button class="btn-start">Start Election</button></a>
+            <?php elseif ($electionStatus == 1): ?>
+                <a href="../api/end_election.php"><button class="btn-end">End Election</button></a>
+            <?php else: ?>
+                <button disabled>Election completed</button>
+            <?php endif; ?>
+        </div>
+
+        <!-- Winner announcement -->
+        <?php if ($electionStatus == 2 && $winner): ?>
+            <div id="winnerBox">
+                <h2>🏆 WINNER ANNOUNCEMENT 🏆</h2>
+                <?php
+                $photoSrc = (strpos($winner['photo'], 'data:') === 0) ? $winner['photo'] : '../Uploads/' . $winner['photo'];
+                ?>
+                <img src="<?php echo $photoSrc; ?>" height="120" width="120" onerror="this.src='../Uploads/default.png'">
+                <h2><?php echo htmlspecialchars($winner['name']); ?></h2>
+                <p>Won with <strong><?php echo $winner['vote']; ?></strong> votes</p>
+                <p style="font-size:13px; opacity:0.85;">Election: <?php echo htmlspecialchars($electionData['name']); ?></p>
+            </div>
+        <?php elseif ($electionStatus == 2 && !$winner): ?>
+            <div id="winnerBox" style="background: #6c757d;">
+                <h2>Election Ended</h2>
+                <p>No votes were cast. No winner to announce.</p>
+            </div>
+        <?php endif; ?>
+
         <hr>
 
         <div id="stats">
@@ -132,29 +265,62 @@
                 <h2><?php echo $votedcount; ?></h2>
                 <p>Voters Voted</p>
             </div>
+            <div id="statBox">
+                <h2><?php echo $votercount > 0 ? round(($votedcount / $votercount) * 100) . '%' : '0%'; ?></h2>
+                <p>Turnout</p>
+            </div>
         </div>
 
         <hr>
 
+        <!-- Add candidate form (only when election not started) -->
+        <?php if ($electionStatus == 0): ?>
         <h3 style="text-align:center; color: var(--scoe-maroon);">Add New Candidate</h3>
         <form id="addCandidateForm" action="../api/candidate_register.php" method="post" enctype="multipart/form-data">
             <input type="text" name="name" placeholder="Candidate Name" required>
-            <input type="file" name="photo" required>
+            <select name="branch" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;">
+                <option value="">Select Branch (optional)</option>
+                <option value="AIML">AIML</option>
+                <option value="Computer Engineering">Computer Engineering</option>
+                <option value="IT">Information Technology</option>
+                <option value="Mechanical">Mechanical Engineering</option>
+                <option value="Civil">Civil Engineering</option>
+                <option value="ENTC">ENTC (Electronics & Telecomm)</option>
+                <option value="Electrical">Electrical Engineering</option>
+                <option value="Chemical">Chemical Engineering</option>
+            </select>
+            <input type="file" name="photo" accept="image/*" required>
             <center><button type="submit">Add Candidate</button></center>
         </form>
+        <?php else: ?>
+        <p id="noVotesMsg">Candidate registration is locked while the election is <?php echo $electionStatus == 1 ? 'live' : 'ended'; ?>.</p>
+        <?php endif; ?>
 
         <div id="candidateList">
             <h3 style="text-align:center; color: var(--scoe-maroon);">Registered Candidates</h3>
             <?php
             if(count($candidatedata) > 0){
                 foreach($candidatedata as $cand){
+                    $photoSrc = (strpos($cand['photo'], 'data:') === 0) ? $cand['photo'] : '../Uploads/' . $cand['photo'];
             ?>
                 <div id="candidateCard">
-                    <img src="../Uploads/<?php echo $cand['photo'] ?>" height="80" width="80" onerror="this.src='../Uploads/default.png'">
+                    <img src="<?php echo $photoSrc; ?>" height="80" width="80" onerror="this.src='../Uploads/default.png'">
                     <div>
                         <b>Name:</b> <?php echo htmlspecialchars($cand['name']) ?><br>
-                        <b>Votes:</b> <?php echo $cand['vote'] ?>
+                        <b>Branch:</b> <?php echo htmlspecialchars($cand['branch'] ?? 'N/A') ?>
+                        <?php if ($electionStatus == 2): ?>
+                            <br><b>Votes:</b> <?php echo $cand['vote'] ?>
+                        <?php endif; ?>
                     </div>
+                    <?php if ($electionStatus == 0): ?>
+                    <div class="vote-count"><?php echo $cand['vote']; ?> votes</div>
+                    <?php endif; ?>
+                    <?php if ($electionStatus == 0): ?>
+                    <form id="deleteForm" action="../api/delete_candidate.php" method="post" onsubmit="return confirm('Delete this candidate?');">
+                        <input type="hidden" name="cid" value="<?php echo $cand['id']; ?>">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                    <?php endif; ?>
                 </div>
             <?php
                 }

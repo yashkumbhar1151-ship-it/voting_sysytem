@@ -7,76 +7,69 @@
     exit;
   }
 
+  // Election gate: can only add candidates when election not started
+  $election = mysqli_query($connect, "SELECT * FROM election ORDER BY id DESC LIMIT 1");
+  $electionData = mysqli_fetch_array($election);
+  if ($electionData && $electionData['status'] != 0) {
+    echo '<script>alert("Candidates can only be added before the election starts."); window.location = "../routes/AdminDashboard.php";</script>';
+    exit;
+  }
+
   $name = $_POST['name'];
-  $image = $_FILES['photo']['name'];
-  $tmp_name = $_FILES['photo']['tmp_name'];
+  $branch = isset($_POST['branch']) ? $_POST['branch'] : '';
+
+  // Store photo as base64 data URI (persists on Railway ephemeral filesystem)
+  if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $imageData = file_get_contents($_FILES['photo']['tmp_name']);
+    $imageType = mime_content_type($_FILES['photo']['tmp_name']);
+    if (strpos($imageType, 'image/') !== 0) {
+      echo '<script>alert("Please upload a valid image file."); window.location = "../routes/AdminDashboard.php";</script>';
+      exit;
+    }
+    $photo = 'data:' . $imageType . ';base64,' . base64_encode($imageData);
+  } else {
+    echo '<script>alert("Photo is required."); window.location = "../routes/AdminDashboard.php";</script>';
+    exit;
+  }
 
   // Check if candidate name already exists
-  $stmt = $connect->prepare("SELECT * FROM user WHERE name= ?");
+  $stmt = $connect->prepare("SELECT * FROM user WHERE name= ? AND role=2");
   $stmt->bind_param("s", $name);
   $stmt->execute();
   if($stmt->get_result()->num_rows > 0){
     echo "
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SweetAlert Example</title>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
-</head>
-<body>
 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            title: 'Candidate Already Exist!',
-            text: 'Please choose another name',
-            icon: 'info',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            history.back();
-        });
+    Swal.fire({
+        title: 'Candidate Already Exist!',
+        text: 'Please choose another name',
+        icon: 'info',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location = '../routes/AdminDashboard.php';
     });
 </script>
-</body>
-</html>
     ";
     exit;
   }
 
-  move_uploaded_file($tmp_name, "../Uploads/$image");
-
   // Insert candidate (role=2)
-  $stmt = $connect->prepare("INSERT INTO user (name, password, photo, role, status, vote) VALUES (?, '', ?, 2, 0, 0)");
-  $stmt->bind_param("ss", $name, $image);
+  $stmt = $connect->prepare("INSERT INTO user (name, password, photo, role, status, vote, branch) VALUES (?, '', ?, 2, 0, 0, ?)");
+  $stmt->bind_param("sss", $name, $photo, $branch);
 
   if($stmt->execute()){
     echo "
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>SweetAlert Example</title>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
-</head>
-<body>
 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            title: 'Candidate Added!',
-            text: 'Candidate registered successfully',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            window.location.href = '../routes/AdminDashboard.php';
-        });
+    Swal.fire({
+        title: 'Candidate Added!',
+        text: 'Candidate registered successfully',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location = '../routes/AdminDashboard.php';
     });
 </script>
-</body>
-</html>
     ";
   } else {
     echo '

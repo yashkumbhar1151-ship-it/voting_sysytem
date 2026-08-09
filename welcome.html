@@ -31,6 +31,35 @@
             margin: 15px auto 25px auto;
             border: 0;
         }
+        .election-status-banner {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .st-0 { background: #fff3cd; color: #856404; border: 2px solid #ffc107; }
+        .st-1 { background: #d4edda; color: #155724; border: 2px solid #28a745; }
+        .st-2 { background: #f8d7da; color: #721c24; border: 2px solid #dc3545; }
+
+        .winner-card {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--scoe-gold) 0%, #b8860b 100%);
+            color: #fff;
+            padding: 25px 40px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        .winner-card img {
+            border-radius: 50%;
+            border: 3px solid #fff;
+            object-fit: cover;
+        }
+        .winner-card h2 { margin: 12px 0 5px 0; font-size: 26px; }
+
         .welcome-buttons {
             display: flex;
             gap: 15px;
@@ -76,6 +105,9 @@
     <main class="welcome-main">
         <p class="heading">Welcome to SCOE Online Voting System</p>
         <hr class="divider">
+
+        <div id="statusArea"></div>
+
         <p class="subheading">Vote for your favourite candidate.</p>
         <div class="welcome-buttons">
             <a href="routes/VoterRegister.html"><button>Voter - Register & Vote</button></a>
@@ -85,5 +117,41 @@
     <footer class="brand-footer">
         <p>&copy; 2026 Siddhant College of Engineering &middot; Powered by Student Council</p>
     </footer>
+
+<script>
+(function() {
+    var area = document.getElementById('statusArea');
+
+    function render(data) {
+        var html = '';
+        if (data.status === 0) {
+            html += '<div class="election-status-banner st-0">Election Not Started</div>';
+        } else if (data.status === 1) {
+            html += '<div class="election-status-banner st-1">Voting is LIVE - Cast your vote!</div>';
+        } else if (data.status === 2) {
+            html += '<div class="election-status-banner st-2">Voting has Ended</div>';
+            if (data.winner) {
+                var photo = (data.winner.photo.indexOf('data:') === 0)
+                    ? data.winner.photo
+                    : 'Uploads/' + data.winner.photo;
+                html += '<div class="winner-card">'
+                    + '<h2>&#127942; CONGRATULATIONS &#127942;</h2>'
+                    + '<img src="' + photo + '" height="110" width="110" onerror="this.src=\'Uploads/default.png\'">'
+                    + '<h2>' + data.winner.name + '</h2>'
+                    + '<p>Winner of the Election!</p>'
+                    + '</div>';
+            } else {
+                html += '<p class="subheading" style="margin-bottom: 20px;">Thank you for participating!</p>';
+            }
+        }
+        area.innerHTML = html;
+    }
+
+    fetch('api/election_status.php')
+        .then(function(r) { return r.json(); })
+        .then(render)
+        .catch(function() { /* DB not reachable - show nothing */ });
+})();
+</script>
 </body>
 </html>
