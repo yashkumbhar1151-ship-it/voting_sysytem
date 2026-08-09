@@ -3,96 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siddhant College Of Engineering</title>
+    <title>Siddhant College of Engineering - Voting</title>
+    <link rel="stylesheet" href="css/brand.css">
     <style>
+        .welcome-main {
+            flex: 1;
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .welcome-main .heading {
+            font-size: 28px;
+            color: var(--scoe-maroon);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .welcome-main .subheading {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .welcome-main .divider {
+            width: 80px;
+            height: 3px;
+            background: var(--scoe-gold);
+            margin: 15px auto 25px auto;
+            border: 0;
+        }
+        .welcome-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .welcome-buttons a button {
+            background: linear-gradient(135deg, var(--scoe-maroon) 0%, var(--scoe-red) 100%);
+            color: #fff;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .welcome-buttons a button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(123,17,19,0.35);
+        }
+        .welcome-buttons .admin-btn {
+            background: var(--scoe-dark) !important;
+        }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-
-        }
-
-        header {
-            text-align: center;
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        main {
-            flex: 1;
-            text-align: center;
-            padding: 10% 10%;
-        }
-
-        #heading {
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            font-size: 25px;
-
-        }
-
-        #subheading {
-            font-size: 18px;
-            color: #333;
-        }
-
-        a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        button {
-            background-color: #333;
-            color: #fff;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 10px;
-        }
-
-        button:hover {
-            background-color: #555;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        footer p:last-child {
-            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
-    <div>
-        <header>
-            <h1>SIDDHANT COLLEGE OF ENGINEERING</h1>
-        </header>
-            <main>
-                <p id="heading">Welcome to our SCOE online voting system. <br><hr></p>
-                <p id="subheading">Vote Your Favourite Candidate.</p>
-                <a href="routes/VoterRegister.html"><button id="votenow">Voter - Register & Vote</button></a>
-                <a href="routes/AdminLogin.html"><button id="adminbtn">Admin</button></a>
-            </main>
-        <footer>
-            <p>&copy; 2026 Siddhant College Of Engineering. All rights reserved.</p>
-            <p>Developed by: Sachin Bijapur and Yash Khumbar</p>
-        </footer>
-    </div>
+    <header class="brand-header">
+        <div class="brand-container">
+            <img src="images and logo/logoSCOE.png" alt="SCOE Logo" class="brand-logo">
+            <div class="brand-text">
+                <h1>Siddhant College of Engineering</h1>
+                <p>Online Voting System</p>
+            </div>
+        </div>
+    </header>
+    <main class="welcome-main">
+        <p class="heading">Welcome to SCOE Online Voting System</p>
+        <hr class="divider">
+        <p class="subheading">Vote for your favourite candidate.</p>
+        <div class="welcome-buttons">
+            <a href="routes/VoterRegister.html"><button>Voter - Register & Vote</button></a>
+            <a href="routes/AdminLogin.html"><button class="admin-btn">Admin Login</button></a>
+        </div>
+    </main>
+    <footer class="brand-footer">
+        <p>&copy; 2026 Siddhant College of Engineering &middot; Powered by Student Council</p>
+    </footer>
 </body>
 </html>

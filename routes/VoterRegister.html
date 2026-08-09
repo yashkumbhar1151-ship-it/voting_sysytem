@@ -3,35 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Voting System - Voter Registration</title>
+    <title>SCOE Voting - Voter Registration</title>
     <link rel="stylesheet" href="../css/Register.css">
-    <style>
-        .note {
-            text-align: center;
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-        .note strong {
-            color: #343a40;
-        }
-    </style>
 </head>
 <body>
-    <div id="RegisterHeader">
-        <h1>Online Voting System</h1>
-    </div>
-    <hr>
-    <h3 style="text-align: center;">Voter Registration</h3>
-    <p class="note">No password needed. Register with your <strong>division roll no</strong> and <strong>appar id</strong> to vote <strong>once</strong>.</p>
-    <form action="../api/voter_register.php" method="post">
-            <input type="text" name="name" placeholder="Username" required><br>
-        <input type="text" name="div_roll_no" placeholder="Division - Roll No (e.g. A-12)" required><br>
-        <input type="text" name="appar_id" placeholder="Appar ID (Admission No)" required><br>
-        <button id="Registerbtn">Register</button><br>
-        <div id="Redirect">
-            Voter already registered?<a href="../index.html">Vote Now</a>
+    <header class="brand-header">
+        <div class="brand-container">
+            <img src="../images and logo/logoSCOE.png" alt="SCOE Logo" class="brand-logo">
+            <div class="brand-text">
+                <h1>Siddhant College of Engineering</h1>
+                <p>Online Voting System</p>
+            </div>
         </div>
-    </form>
+    </header>
+
+    <div class="page-wrapper">
+        <h2>Voter Registration</h2>
+        <p class="note">No password needed. Register with your <strong>division roll no</strong> and <strong>branch</strong> to vote <strong>once</strong>.</p>
+        <form action="../api/voter_register.php" method="post">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="div_roll_no" placeholder="Division - Roll No (e.g. A-12)" required>
+            <select name="branch" required>
+                <option value="" disabled selected>Select your branch</option>
+                <option value="AIML">AIML</option>
+                <option value="Computer Engineering">Computer Engineering</option>
+                <option value="IT">Information Technology</option>
+                <option value="Mechanical">Mechanical Engineering</option>
+                <option value="Civil">Civil Engineering</option>
+                <option value="ENTC">ENTC (Electronics & Telecomm)</option>
+                <option value="Electrical">Electrical Engineering</option>
+                <option value="Chemical">Chemical Engineering</option>
+            </select>
+            <button id="Registerbtn" type="submit">Register & Vote</button>
+            <div id="Redirect">
+                Already registered? <a href="../index.html">Vote Now</a>
+            </div>
+        </form>
+    </div>
+
+    <footer class="brand-footer">
+        <p>&copy; 2026 Siddhant College of Engineering &middot; Powered by Student Council</p>
+    </footer>
 </body>
 </html>

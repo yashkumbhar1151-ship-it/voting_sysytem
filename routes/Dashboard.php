@@ -19,18 +19,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Voting System  -  Dashboard</title>
+    <title>SCOE Voting - Dashboard</title>
 <link rel="stylesheet" href="../css/Dashboard.css">
 </head>
 <body>
-      
+      <header class="brand-header">
+        <div class="brand-container">
+            <img src="../images and logo/logoSCOE.png" alt="SCOE Logo" class="brand-logo">
+            <div class="brand-text">
+                <h1>Siddhant College of Engineering</h1>
+                <p>Online Voting System</p>
+            </div>
+        </div>
+      </header>
       <div id="mainSection">
-      <a href="../index.html"><button id="backbtn">back</button></a>
-      <a href="logout.php"><button id="logoutbtn" style="float: left;">Log Out</button></a>
-      <div class="logoandtitle">
-      <h1 id="collagetitle">
-        Siddhant College Of Engineering
-    </h1>
+      <div class="top-actions">
+        <a href="../welcome.html"><button id="backbtn">Home</button></a>
+        <a href="logout.php"><button id="logoutbtn">Log Out</button></a>
       </div>
       <hr>
       <div id="mainpanel">
@@ -40,8 +45,8 @@
          <?php if(isset($userdata['div_roll_no'])): ?>
          <b>Div - Roll No: </b><?php echo $userdata['div_roll_no'] ?><br><br>
          <?php endif; ?>
-         <?php if(isset($userdata['appar_id'])): ?>
-         <b>Appar ID: </b><?php echo $userdata['appar_id'] ?><br><br>
+         <?php if(isset($userdata['branch']) && $userdata['branch']): ?>
+         <b>Branch: </b><?php echo htmlspecialchars($userdata['branch']) ?><br><br>
          <?php endif; ?>
          <b>Status: </b><?php echo $status ?><br><br>
       </div>

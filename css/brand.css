@@ -1,0 +1,165 @@
+/* ===== SCOE Branding Shared Styles ===== */
+:root {
+    --scoe-maroon: #7b1113;
+    --scoe-maroon-dark: #5a0d0e;
+    --scoe-red: #b91c1c;
+    --scoe-gold: #d4af37;
+    --scoe-gold-light: #e9c960;
+    --scoe-dark: #2b2b2b;
+    --scoe-cream: #faf7f2;
+    --scoe-gray: #f4f4f4;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--scoe-cream);
+    margin: 0;
+    padding: 0;
+}
+
+/* Brand Header */
+.brand-header {
+    background: linear-gradient(135deg, var(--scoe-maroon) 0%, var(--scoe-maroon-dark) 100%);
+    color: #fff;
+    padding: 18px 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border-bottom: 4px solid var(--scoe-gold);
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 18px;
+}
+
+.brand-logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    background: #fff;
+    padding: 4px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.brand-text h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+
+.brand-text p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: var(--scoe-gold-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Brand Footer */
+.brand-footer {
+    background-color: var(--scoe-dark);
+    color: #ddd;
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 13px;
+    margin-top: 30px;
+}
+
+.brand-footer p {
+    margin: 4px 0;
+}
+
+/* Page content wrapper */
+.page-wrapper {
+    max-width: 500px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 35px 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border-top: 4px solid var(--scoe-gold);
+}
+
+.page-wrapper h2 {
+    text-align: center;
+    color: var(--scoe-maroon);
+    margin-bottom: 15px;
+}
+
+.note {
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+.note strong {
+    color: var(--scoe-maroon);
+}
+
+/* Form controls */
+.page-wrapper form input,
+.page-wrapper form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 15px;
+    transition: border-color 0.2s;
+}
+
+.page-wrapper form input:focus,
+.page-wrapper form select:focus {
+    border-color: var(--scoe-maroon);
+    outline: none;
+}
+
+.page-wrapper form button {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--scoe-maroon) 0%, var(--scoe-red) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.page-wrapper form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(123,17,19,0.4);
+}
+
+#Redirect {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+    color: #666;
+}
+
+#Redirect a {
+    color: var(--scoe-maroon);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#Redirect a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .brand-text h1 { font-size: 18px; }
+    .brand-text p { font-size: 12px; }
+    .brand-logo { height: 45px; }
+    .page-wrapper { margin: 20px 15px; padding: 25px 20px; }
+}

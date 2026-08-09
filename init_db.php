@@ -21,9 +21,8 @@
     `status` int(11) NOT NULL DEFAULT 0,
     `vote` int(11) NOT NULL DEFAULT 0,
     `div_roll_no` varchar(100) DEFAULT NULL,
-    `appar_id` varchar(100) DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `appar_id_unique` (`appar_id`)
+    `branch` varchar(100) DEFAULT NULL,
+    PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
   mysqli_query($connect, $createTable);
@@ -33,9 +32,9 @@
     mysqli_query($connect, "INSERT INTO user (name, password, photo, role, status, vote) VALUES ('admin', 'admin123', 'default.png', 3, 0, 0)");
   }
 
-  $checkImgTable = mysqli_query($connect, "SHOW TABLES LIKE 'user'");
-  if (mysqli_num_rows($checkImgTable) > 0) {
-    echo "Database initialized successfully! Table 'user' is ready.";
+  $checkTable = mysqli_query($connect, "SHOW TABLES LIKE 'user'");
+  if (mysqli_num_rows($checkTable) > 0) {
+    echo "Database initialized successfully! Table 'user' is ready. Admin login: admin / admin123";
   } else {
     echo "Error: Table creation failed.";
   }

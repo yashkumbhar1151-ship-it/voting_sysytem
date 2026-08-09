@@ -1,108 +1,46 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Online Voting System-Registration</title>
-    <link rel="stylesheet" href="../css/Register.css">
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCOE Voting - Registration</title>
+    <link rel="stylesheet" href="../css/brand.css">
 </head>
 <body>
-    <style>
-        input[type="file"]{
-            display: none;
-        }
-
-        label{
-            display: inline;
-            text-transform: uppercase;
-            color: #343a40;
-            background: #ffffff;
-            text-align: center;
-            padding: 6px 15px;
-            font-size: 18px;
-            letter-spacing: 1.5px;
-            user-select: none;
-            cursor: pointer;
-            border-radius: 3px;
-            font-family: 'poppins',sans-serif;
-            
-        }
-
-         label i{
-           font-size: 20px;
-           margin-right: 10px;
-        }
-
-        label:active{
-            transform: scale(0.9);
-        }
-
-         #selectrole{
-            display: inline;
-            text-transform: uppercase;
-            color: #343a40;
-            text-align: center;
-            padding: 6px 15px;
-            font-size: 14px;
-            letter-spacing: 1.5px;
-            user-select: none;
-            cursor: pointer;
-            border-radius: 3px;
-              
-    }
-        
-    label[for="role"], select {
-            display: inline;
-            text-transform: uppercase;
-            color: #343a40;
-            text-align: center;
-            padding: 6px 15px;
-            font-size: 14px;
-            letter-spacing: 1.5px;
-            user-select: none;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-
-        input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
-        }
-        
-  
-    </style>
-  
-    <div id="RegisterHeader">
-        <h1>Online Voting System</h1>
-    </div>
-   
-    <hr>
-    <h3 style="text-align: center;">Registration</h3>
-    <form action="../api/register.php" method="post" enctype="multipart/form-data">
-            <input type="text" name="name" placeholder="Name" required><br>
-        <input  type="password" name="password" placeholder="Password" required><br>
-        <input  type="password" name="cpassword" placeholder="Confirm passord" required><br>
-        <center>
-            <label for="uploadBtn"><i class="fa-solid fa-uploads"></i>Upload Photo</label>
-            <input type="file" id="uploadBtn" name="photo"><br><br>
-       <div id="selectRegister">
-        <b id="selectrole">Select your role:</b>
-    <select id="role" name="role" class="role-selector">
-        <option value="1">Vote</option>
-        <option value="2">Candidate</option>
-    </select>
-        <br>
-    </div>
-    
-    </center>
-        <button id="Registerbtn">Register</button><br>
-        <div id="Redirect">
-            Already register?<a href="../index.html">Login</a>
+    <header class="brand-header">
+        <div class="brand-container">
+            <img src="../images and logo/logoSCOE.png" alt="SCOE Logo" class="brand-logo">
+            <div class="brand-text">
+                <h1>Siddhant College of Engineering</h1>
+                <p>Online Voting System</p>
+            </div>
         </div>
-        
-    </form>
+    </header>
+
+    <div class="page-wrapper">
+        <h2>Registration</h2>
+        <form action="../api/register.php" method="post" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="cpassword" placeholder="Confirm password" required>
+            <div style="margin-bottom:15px;">
+                <label style="font-size:14px; color:#555; margin-bottom:6px; display:block;"><b>Upload Photo:</b></label>
+                <input type="file" name="photo" accept="image/*">
+            </div>
+            <select name="role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="1">Voter</option>
+                <option value="2">Candidate</option>
+            </select>
+            <button id="Registerbtn" type="submit">Register</button>
+            <div id="Redirect">
+                Already registered? <a href="../index.html">Vote Now</a>
+            </div>
+        </form>
+    </div>
+
+    <footer class="brand-footer">
+        <p>&copy; 2026 Siddhant College of Engineering &middot; Powered by Student Council</p>
+    </footer>
 </body>
 </html>

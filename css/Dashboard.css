@@ -1,74 +1,11 @@
-/* body{
-    background-color: #f2f2f2;
-    font-family: Arial, sans-serif;
-}
-
-
-#collagetitle{
-    text-align: center;
-}
-
-#backbtn{
-    padding: 10px;
-    width: 60px;
-    border-radius: 5px;
-    color: white;
-    background-color: #48dbfb;
-    float: left;
-   }
-
-   #logoutbtn{
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    background-color: #48dbfb;
-    float: right;
-   }
-
-   #profile{
-    padding-top: 5px;
-    background-color: white;
-    width: 35%;
-    padding: 3%;
-    float: left;
-   }
-
-   #Candidate{
-    background-color: brown;
-    width: 50%;
-    height: 70%;
-    padding: 3%;
-    float: right;
-   }
-
-   #votebtn{
-    padding: 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: #48dbfb;
-   }
-   
-   #mainpanel{
-    padding: 10px;
-   }
-
-   #voted{
-    padding: 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: #19dd07;
-   } */
-
-
-   /* Reset some default styles for better consistency */
 body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--scoe-cream, #faf7f2);
 }
 
 #mainSection {
@@ -79,33 +16,46 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.top-actions {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
 #backbtn, #logoutbtn {
-    background-color: #343a40;
+    background-color: var(--scoe-maroon, #7b1113);
     color: #fff;
-    padding: 10px 15px;
+    padding: 10px 18px;
     text-decoration: none;
-    margin-right: 10px;
     border: none;
     cursor: pointer;
     font-size: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+#backbtn:hover, #logoutbtn:hover {
+    background-color: var(--scoe-maroon-dark, #5a0d0e);
 }
 
 #collagetitle {
-    color: #333;
+    color: var(--scoe-maroon, #7b1113);
     text-align: center;
     margin-top: 20px;
-    font-family: cursive;
-
+    font-family: 'Segoe UI', sans-serif;
 }
 
 hr {
     margin: 20px 0;
-    border: 1px solid #ddd;
+    border: 1px solid #eee;
 }
 
 #mainpanel {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 
 #Profile {
@@ -114,16 +64,23 @@ hr {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center the content in the #Profile div */
-    margin-bottom: 20px; /* Add margin at the bottom to create space for the button */
+    text-align: center;
+    margin-bottom: 20px;
+    border-top: 3px solid var(--scoe-gold, #d4af37);
+}
+
+#Profile #profilephoto {
+    border-radius: 50%;
+    border: 3px solid var(--scoe-gold, #d4af37);
+    object-fit: cover;
 }
 
 #maxVoteBtn {
     display: block;
-    margin: 20px auto; /* Center the button horizontally */
+    margin: 20px auto;
     padding: 10px;
     font-size: 16px;
-    background-color: green;
+    background-color: #2e7d32;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -131,37 +88,56 @@ hr {
 }
 
 #maxVoteBtn:hover {
-    background-color: #2980b9;
+    background-color: #1b5e20;
 }
 
-#Candidate{
-    width: 60%;
+#Candidate {
+    width: 65%;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-top: 3px solid var(--scoe-gold, #d4af37);
+}
+
+#Candidate img {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    object-fit: cover;
 }
 
 #Profile b, #Candidate b {
     font-weight: bold;
-    color: #333;
+    color: var(--scoe-maroon, #7b1113);
 }
 
 #Profile img, #Candidate img {
     border-radius: 50%;
 }
 
-#votebtn, #voted {
-    background-color: #343a40;
+#votebtn {
+    background: linear-gradient(135deg, var(--scoe-maroon, #7b1113) 0%, var(--scoe-red, #b91c1c) 100%);
     color: #fff;
-    padding: 8px 12px;
+    padding: 10px 18px;
     border: none;
     cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#votebtn:hover {
+    box-shadow: 0 4px 10px rgba(123,17,19,0.4);
 }
 
 #voted {
-    background-color: #ccc;
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
     cursor: not-allowed;
+    border-radius: 6px;
+    font-weight: 600;
 }
 
 @media (max-width: 768px) {
@@ -174,12 +150,3 @@ hr {
         margin-bottom: 20px;
     }
 }
-
-
-
-
-
-   
-   
-
-   
