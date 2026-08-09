@@ -3,6 +3,11 @@
     "description": "School voting system",
     "type": "project",
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.2"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        }
     }
 }
