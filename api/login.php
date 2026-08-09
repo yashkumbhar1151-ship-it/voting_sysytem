@@ -3,13 +3,18 @@
    include("connect.php");
 
    $name = $_POST['name'];
-   $Password = $_POST['Password'];
+   $Password = isset($_POST['Password']) ? $_POST['Password'] : (isset($_POST['password']) ? $_POST['password'] : '');
    $role = $_POST['role'];
 
-   $check = mysqli_query($connect, "SELECT * FROM user WHERE name='$name' AND Password='$Password' AND role='$role'");
+   $check = mysqli_query($connect, "SELECT * FROM user WHERE name='$name' AND role='$role' LIMIT 1");
 
    if(mysqli_num_rows($check)>0){
-     $userdata = mysqli_fetch_array($check);
+     $row = mysqli_fetch_array($check);
+     $stored = $row['password'];
+     if (!(password_verify($Password, $stored) || $Password === $stored)) {
+       // invalid password -> fall through to error
+     } else {
+     $userdata = $row;
      $candidate = mysqli_query($connect, "SELECT * FROM user WHERE role=2");
      $candidatedata = mysqli_fetch_all($candidate, MYSQLI_ASSOC);
 
@@ -21,7 +26,8 @@
           window.location = "../routes/Dashboard.php";
      </script>
     '; 
-
+     exit;
+     }
    }
    else{
      echo "

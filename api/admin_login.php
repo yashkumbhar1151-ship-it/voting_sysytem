@@ -10,7 +10,8 @@
 
    if(mysqli_num_rows($check)>0){
      $admin_data = mysqli_fetch_array($check);
-     $valid = password_verify($admin_password, $admin_data['Password']) || $admin_password === $admin_data['Password'];
+     $stored = $admin_data['password'];
+     $valid = password_verify($admin_password, $stored) || $admin_password === $stored;
      if(!$valid){
        echo 'INVALID';
        exit;
