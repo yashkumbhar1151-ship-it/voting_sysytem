@@ -1,0 +1,82 @@
+<?php
+   session_start();
+   if(!isset($_SESSION['userdata'])){
+    header("location: ../index.html");
+   }
+
+   $userdata = $_SESSION['userdata'];
+   $candidatedata = $_SESSION['candidatedata'];
+
+   if($_SESSION['userdata']['status']==0){
+      $status = '<b style="color:red" > Not Voted </b>';
+   }
+   else{
+      $status = '<b style="color:green" > Voted </b>';
+   }
+?>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System  -  Dashboard</title>
+<link rel="stylesheet" href="../css/Dashboard.css">
+</head>
+<body>
+      
+      <div id="mainSection">
+      <a href="../index.html"><button id="backbtn">back</button></a>
+      <a href="logout.php"><button id="logoutbtn" style="float: left;">Log Out</button></a>
+      <div class="logoandtitle">
+      <h1 id="collagetitle">
+        Siddhant College Of Engineering
+    </h1>
+      </div>
+      <hr>
+      <div id="mainpanel">
+<div id="Profile">
+        <center> <img id="profilephoto" src="../Uploads/<?php echo $userdata['photo'] ?>" onerror="this.src='../Uploads/default.png'" height="200" width="200"><br><br></center>
+         <b>Name: </b><?php echo $userdata['name'] ?><br><br>
+         <?php if(isset($userdata['div_roll_no'])): ?>
+         <b>Div - Roll No: </b><?php echo $userdata['div_roll_no'] ?><br><br>
+         <?php endif; ?>
+         <?php if(isset($userdata['appar_id'])): ?>
+         <b>Appar ID: </b><?php echo $userdata['appar_id'] ?><br><br>
+         <?php endif; ?>
+         <b>Status: </b><?php echo $status ?><br><br>
+      </div>
+      <div id="Candidate" style="float:right;">
+   <?php
+   if ($_SESSION['candidatedata']) {
+      for ($i = 0; $i < count($candidatedata); $i++) {
+   ?>
+         <div>
+            <img style="float: right;" src="../Uploads/<?php echo $candidatedata[$i]['photo'] ?>" height="100" width="100">
+<b>Candidate Name: </b><?php echo $candidatedata[$i]['name'] ?><br><br>
+            <form action="../api/vote.php" method="post">
+               <input type="hidden" name="Cvotes" value="<?php echo $candidatedata[$i]['vote'] ?>">
+               <input type="hidden" name="Cid" value="<?php echo $candidatedata[$i]['id'] ?>">
+               <?php
+               if ($_SESSION['userdata']['status'] == 0) {
+               ?>
+                  <input type="submit" name="votebtn" value="Vote" id="votebtn">
+               <?php
+               } else {
+               ?>
+                  <button disabled type="button" name="votebtn" value="Vote" id="voted">Voted</button>
+               <?php
+               }
+               ?>
+            </form>
+</div>
+         <hr>
+   <?php
+      }
+   } else {
+   }
+   ?>
+</div>
+ 
+      </div>
+</body>
+</html>

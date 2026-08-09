@@ -1,0 +1,185 @@
+/* body{
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+}
+
+
+#collagetitle{
+    text-align: center;
+}
+
+#backbtn{
+    padding: 10px;
+    width: 60px;
+    border-radius: 5px;
+    color: white;
+    background-color: #48dbfb;
+    float: left;
+   }
+
+   #logoutbtn{
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    background-color: #48dbfb;
+    float: right;
+   }
+
+   #profile{
+    padding-top: 5px;
+    background-color: white;
+    width: 35%;
+    padding: 3%;
+    float: left;
+   }
+
+   #Candidate{
+    background-color: brown;
+    width: 50%;
+    height: 70%;
+    padding: 3%;
+    float: right;
+   }
+
+   #votebtn{
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: #48dbfb;
+   }
+   
+   #mainpanel{
+    padding: 10px;
+   }
+
+   #voted{
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: #19dd07;
+   } */
+
+
+   /* Reset some default styles for better consistency */
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+}
+
+#mainSection {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#backbtn, #logoutbtn {
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#collagetitle {
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    font-family: cursive;
+
+}
+
+hr {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+#mainpanel {
+    display: flex;
+    justify-content: space-between;
+}
+
+#Profile {
+    width: 30%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center the content in the #Profile div */
+    margin-bottom: 20px; /* Add margin at the bottom to create space for the button */
+}
+
+#maxVoteBtn {
+    display: block;
+    margin: 20px auto; /* Center the button horizontally */
+    padding: 10px;
+    font-size: 16px;
+    background-color: green;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#maxVoteBtn:hover {
+    background-color: #2980b9;
+}
+
+#Candidate{
+    width: 60%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#Profile b, #Candidate b {
+    font-weight: bold;
+    color: #333;
+}
+
+#Profile img, #Candidate img {
+    border-radius: 50%;
+}
+
+#votebtn, #voted {
+    background-color: #343a40;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+}
+
+#voted {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    #mainpanel {
+        flex-direction: column;
+    }
+
+    #Profile, #Candidate {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+
+
+
+
+   
+   
+
+   

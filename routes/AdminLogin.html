@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System - Admin Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+   <div id="LoginHeader">
+    <h1>Online Voting System</h1>
+   </div>
+   <hr>
+
+   <div id="formsection">
+    <form id="loginpage" action="../api/admin_login.php" method="post">
+        <h3>Admin Login</h3>
+        <input type="text" name="admin_name" placeholder="Enter admin username" required><br><br>
+        <input type="password" name="admin_password" placeholder="Enter admin password" required><br><br>
+        <button id="loginbtn" type="submit">Login</button><br><br>
+        Back to <a href="../welcome.html">Home</a>
+ </form>
+   </div>
+</body>
+</html>

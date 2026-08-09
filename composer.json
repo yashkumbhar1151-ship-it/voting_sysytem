@@ -1,0 +1,8 @@
+{
+    "name": "voting-app",
+    "description": "School voting system",
+    "type": "project",
+    "require": {
+        "php": ">=8.0"
+    }
+}
