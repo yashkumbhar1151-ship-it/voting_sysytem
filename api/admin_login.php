@@ -6,10 +6,15 @@
    $admin_password = $_POST['admin_password'];
 
    // Admin is a user with role=3
-   $check = mysqli_query($connect, "SELECT * FROM user WHERE name='$admin_name' AND Password='$admin_password' AND role=3");
+   $check = mysqli_query($connect, "SELECT * FROM user WHERE name='$admin_name' AND role=3 LIMIT 1");
 
    if(mysqli_num_rows($check)>0){
      $admin_data = mysqli_fetch_array($check);
+     $valid = password_verify($admin_password, $admin_data['Password']) || $admin_password === $admin_data['Password'];
+     if(!$valid){
+       echo 'INVALID';
+       exit;
+     }
      $_SESSION['admindata'] = $admin_data;
 
      echo'
