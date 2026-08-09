@@ -49,10 +49,12 @@ if ($urow && $urow['status'] == 1) {
   exit;
 }
 
-$update_votes = mysqli_query($connect, "UPDATE user SET vote='$total_votes' WHERE id='$Cid'");
+$update_votes = mysqli_query($connect, "UPDATE user SET vote='$total_votes' WHERE id='$Cid' AND role=2");
+$votes_affected = mysqli_affected_rows($connect);
 $update_user_status = mysqli_query($connect,"UPDATE user SET status=1 WHERE id='$uid'");
+$status_affected = mysqli_affected_rows($connect);
 
-if($update_votes and $update_user_status){
+if($update_votes and $update_user_status and $votes_affected > 0 and $status_affected > 0){
 
     $candidate = mysqli_query($connect, "SELECT * FROM user WHERE role=2");
     $candidatedata = mysqli_fetch_all($candidate, MYSQLI_ASSOC);
