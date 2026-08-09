@@ -1,13 +1,5 @@
 {
-    "name": "voting-app",
+    "name": "voting/app",
     "description": "School voting system",
-    "type": "project",
-    "require": {
-        "php": ">=8.2"
-    },
-    "config": {
-        "platform": {
-            "php": "8.2"
-        }
-    }
+    "type": "project"
 }
