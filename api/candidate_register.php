@@ -18,7 +18,7 @@
   $name = $_POST['name'];
   $branch = isset($_POST['branch']) ? $_POST['branch'] : '';
 
-  // Store photo as base64 data URI (persists on Railway ephemeral filesystem)
+  // Photo is optional; default avatar when not uploaded
   if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $imageData = file_get_contents($_FILES['photo']['tmp_name']);
     $imageType = mime_content_type($_FILES['photo']['tmp_name']);
@@ -28,8 +28,7 @@
     }
     $photo = 'data:' . $imageType . ';base64,' . base64_encode($imageData);
   } else {
-    echo '<script>alert("Photo is required."); window.location = "../routes/AdminDashboard.php";</script>';
-    exit;
+    $photo = 'default.png';
   }
 
   // Check if candidate name already exists

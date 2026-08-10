@@ -289,7 +289,8 @@
                 <option value="Electrical">Electrical Engineering</option>
                 <option value="Chemical">Chemical Engineering</option>
             </select>
-            <input type="file" name="photo" accept="image/*" required>
+            <input type="file" name="photo" accept="image/*">
+            <small style="display:block; text-align:center; color:#888; margin-bottom:10px;">Photo is optional - a default avatar will be used.</small>
             <center><button type="submit">Add Candidate</button></center>
         </form>
         <?php else: ?>
