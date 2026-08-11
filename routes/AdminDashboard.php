@@ -93,7 +93,8 @@
         }
         .btn-start { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
         .btn-end { background: linear-gradient(135deg, #b71c1c, #d32f2f); }
-        .btn-start:hover, .btn-end:hover { opacity: 0.9; }
+        .btn-new { background: linear-gradient(135deg, #0d47a1, #1976d2); }
+        .btn-start:hover, .btn-end:hover, .btn-new:hover { opacity: 0.9; }
 
         /* Winner announcement */
         #winnerBox {
@@ -227,7 +228,7 @@
             <?php elseif ($electionStatus == 1): ?>
                 <a href="../api/end_election.php"><button class="btn-end">End Election</button></a>
             <?php else: ?>
-                <button disabled>Election completed</button>
+                <a href="../api/new_election.php" onclick="return confirm('Start a new election?\n\nThis will:\n- Clear all vote counts\n- Reset all voters so they can vote again\n- Add candidates for the new election');"><button class="btn-new">Conduct Another Election</button></a>
             <?php endif; ?>
         </div>
 
