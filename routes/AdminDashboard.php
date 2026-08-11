@@ -282,6 +282,7 @@
             <select name="branch" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;">
                 <option value="">Select Branch (optional)</option>
                 <option value="AIML">AIML</option>
+                <option value="AIDS">AIDS (Artificial Intelligence & Data Science)</option>
                 <option value="Computer Engineering">Computer Engineering</option>
                 <option value="IT">Information Technology</option>
                 <option value="Mechanical">Mechanical Engineering</option>
