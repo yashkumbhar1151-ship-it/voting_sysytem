@@ -15,10 +15,10 @@
     <head>
         <meta charset='UTF-8'>
         <title>Voting Closed</title>
-        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
+        <link rel='stylesheet' href='../sweetalert/sweetalert.css'>
     </head>
     <body>
-    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script src='../sweetalert/sweetalert.all.min.js'></script>
     <script>
         Swal.fire({
             title: 'Voting is Closed',
@@ -69,10 +69,10 @@ if($update_votes and $update_user_status and $votes_affected > 0 and $status_aff
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <title>Voting Successful</title>
-        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
+        <link rel='stylesheet' href='../sweetalert/sweetalert.css'>
     </head>
     <body>
-    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script src='../sweetalert/sweetalert.all.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({

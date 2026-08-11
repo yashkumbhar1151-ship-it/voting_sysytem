@@ -21,11 +21,12 @@
   // Photo is optional; default avatar when not uploaded
   if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $imageData = file_get_contents($_FILES['photo']['tmp_name']);
-    $imageType = mime_content_type($_FILES['photo']['tmp_name']);
-    if (strpos($imageType, 'image/') !== 0) {
+    $imageInfo = @getimagesizefromstring($imageData);
+    if ($imageInfo === false) {
       echo '<script>alert("Please upload a valid image file."); window.location = "../routes/AdminDashboard.php";</script>';
       exit;
     }
+    $imageType = $imageInfo['mime'];
     $photo = 'data:' . $imageType . ';base64,' . base64_encode($imageData);
   } else {
     $photo = 'default.png';
@@ -37,16 +38,9 @@
   $stmt->execute();
   if($stmt->get_result()->num_rows > 0){
     echo "
-<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 <script>
-    Swal.fire({
-        title: 'Candidate Already Exist!',
-        text: 'Please choose another name',
-        icon: 'info',
-        confirmButtonText: 'OK'
-      }).then(() => {
-        window.location = '../routes/AdminDashboard.php';
-    });
+    alert('Candidate Already Exist! Please choose another name.');
+    window.location = '../routes/AdminDashboard.php';
 </script>
     ";
     exit;
@@ -58,16 +52,9 @@
 
   if($stmt->execute()){
     echo "
-<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 <script>
-    Swal.fire({
-        title: 'Candidate Added!',
-        text: 'Candidate registered successfully',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      }).then(() => {
-        window.location = '../routes/AdminDashboard.php';
-    });
+    alert('Candidate Added!');
+    window.location = '../routes/AdminDashboard.php';
 </script>
     ";
   } else {
