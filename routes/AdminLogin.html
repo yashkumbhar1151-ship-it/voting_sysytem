@@ -3,35 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCOE Voting - Admin Login</title>
+    <title>Admin Login - SCOE Online Voting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/brand.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        :root {
+            --scoe-maroon: #7b1113;
+            --scoe-maroon-dark: #5a0d0e;
+            --scoe-red: #b91c1c;
+            --scoe-gold: #d4af37;
+            --scoe-gold-light: #e9c960;
+            --scoe-dark: #2b2b2b;
+            --scoe-cream: #faf7f2;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #faf7f2 0%, #f1ebe0 100%);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: var(--scoe-dark);
+            color: #fff;
+            text-align: center;
+            font-size: 13px;
+            padding: 8px 15px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .site-header {
+            background: linear-gradient(135deg, var(--scoe-maroon) 0%, var(--scoe-maroon-dark) 100%);
+            color: #fff;
+            padding: 16px 30px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .header-logo {
+            height: 56px;
+            width: 56px;
+            object-fit: contain;
+            background: #fff;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+        }
+        .header-text h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+        .header-text p {
+            margin: 3px 0 0 0;
+            font-size: 12px;
+            color: var(--scoe-gold-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .header-back {
+            margin-left: auto;
+        }
+        .header-back a {
+            color: #fff;
+            text-decoration: none;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .header-back a:hover { background: rgba(255,255,255,0.22); }
+
+        .form-shell {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 18px;
+            padding: 38px 36px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            border-top: 5px solid var(--scoe-gold);
+        }
+        .form-card .form-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--scoe-dark), #444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 18px auto;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .form-card h2 {
+            text-align: center;
+            color: var(--scoe-maroon);
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+        .form-card .note {
+            text-align: center;
+            color: #888;
+            font-size: 13.5px;
+            margin: 0 0 26px 0;
+        }
+
+        .field-group { margin-bottom: 18px; }
+        .field-group label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 7px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .field-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1.5px solid #e0dcd4;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #fbfaf7;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .field-group input:focus {
+            outline: none;
+            border-color: var(--scoe-maroon);
+            box-shadow: 0 0 0 3px rgba(123,17,19,0.12);
+            background: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--scoe-dark) 0%, #3a3a3a 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+        }
+        .btn-submit:active { transform: translateY(0); }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #888;
+        }
+        .form-footer a {
+            color: var(--scoe-maroon);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .form-footer a:hover { text-decoration: underline; }
+
+        .site-footer {
+            background: var(--scoe-dark);
+            color: #ccc;
+            text-align: center;
+            padding: 22px 20px;
+            font-size: 13.5px;
+        }
+        .site-footer p { margin: 4px 0; }
+        .site-footer .foot-brand { color: var(--scoe-gold-light); font-weight: 600; }
+
+        @media (max-width: 640px) {
+            .header-text h1 { font-size: 16px; }
+            .form-card { padding: 30px 22px; }
+        }
+    </style>
 </head>
 <body>
-    <header class="brand-header">
-        <div class="brand-container">
-            <img src="../images and logo/logoSCOE.png" alt="SCOE Logo" class="brand-logo">
-            <div class="brand-text">
+
+    <div class="topbar">Siddhant Group of Institutions &middot; Caymet, Maharashtra</div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <img src="../images and logo/logoSCOE.png" alt="SCOE Logo" class="header-logo">
+            <div class="header-text">
                 <h1>Siddhant College of Engineering</h1>
                 <p>Online Voting System</p>
+            </div>
+            <div class="header-back">
+                <a href="../welcome.html">&larr; Back to Home</a>
             </div>
         </div>
     </header>
 
-    <div id="formsection">
-        <h3>Admin Login</h3>
-        <form id="loginpage" action="../api/admin_login.php" method="post">
-            <input type="text" name="admin_name" placeholder="Enter admin username" required><br>
-            <input type="password" name="admin_password" placeholder="Enter admin password" required><br>
-            <button id="loginbtn" type="submit">Login</button>
-        </form>
-        <div id="Redirect">
-            Back to <a href="../welcome.html">Home</a>
+    <div class="form-shell">
+        <div class="form-card">
+            <div class="form-icon">🔐</div>
+            <h2>Admin Login</h2>
+            <p class="note">Restricted area for election administrators only.</p>
+
+            <form action="../api/admin_login.php" method="post">
+                <div class="field-group">
+                    <label for="admin_name">Username</label>
+                    <input type="text" id="admin_name" name="admin_name" placeholder="Enter admin username" required>
+                </div>
+                <div class="field-group">
+                    <label for="admin_password">Password</label>
+                    <input type="password" id="admin_password" name="admin_password" placeholder="Enter admin password" required>
+                </div>
+                <button type="submit" class="btn-submit">Login</button>
+                <div class="form-footer">
+                    <a href="../welcome.html">Back to Home</a>
+                </div>
+            </form>
         </div>
     </div>
 
-    <footer class="brand-footer">
+    <footer class="site-footer">
+        <p class="foot-brand">Siddhant College of Engineering</p>
         <p>&copy; 2026 Siddhant College of Engineering &middot; Powered by Student Council</p>
+        <p>Developed by Sachin Bijapur and Yash Khumbar</p>
     </footer>
+
 </body>
 </html>
